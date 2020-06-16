@@ -34,12 +34,9 @@ func main() {
       } else {
          i,_ := strconv.Atoi(c)
          mySlice = append(mySlice,i)
-
-         sort.Slice(mySlice, func(a,b int) bool { return mySlice[a] < mySlice[b] })
-
-         for j,v := range mySlice {
-            fmt.Printf("%d = %d\n",j,v)
-         }
+         sort.Ints(mySlice)
+         fmt.Print(mySlice)
+         fmt.Printf("\n")
       }
    }
 }
