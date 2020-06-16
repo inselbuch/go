@@ -20,7 +20,7 @@ func main() {
 
    var done bool
 
-   mySlice := make([] int,3)
+   mySlice := [] int {}
    reader := bufio.NewReader(os.Stdin)
 
    for done==false {
