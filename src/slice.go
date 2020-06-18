@@ -29,7 +29,7 @@ func main() {
       c,_ := reader.ReadString('\n')
       c = strings.Replace(c,"\n","",-1)
 
-      if c=="X" {
+      if strings.ToUpper(c)=="X" {
          done=true
       } else {
          i,_ := strconv.Atoi(c)
