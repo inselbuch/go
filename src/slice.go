@@ -9,35 +9,33 @@ Write a program which prompts the user to enter integers and stores the integers
 package main
 
 import "fmt"
-import "bufio"
-import "os"
-import "strings"
 import "strconv"
 import "sort"
 
 
 func main() {
 
-   var done bool
+   var text string
 
    mySlice := [] int {}
-   reader := bufio.NewReader(os.Stdin)
 
-   for done==false {
+   for {
 
       fmt.Printf("Enter an integer or X to quit: ")
-      c,_ := reader.ReadString('\n')
-      c = strings.Replace(c,"\n","",-1)
+      fmt.Scan(&text)
 
-      if strings.ToUpper(c)=="X" {
-         done=true
+      if text == "X" || text == "x" {
+         break
+      }
+
+      i,err := strconv.Atoi(text)
+      if err != nil {
+         fmt.Println("invalid number")
       } else {
-         i,_ := strconv.Atoi(c)
          mySlice = append(mySlice,i)
          sort.Ints(mySlice)
-         fmt.Print(mySlice)
-         fmt.Printf("\n")
       }
+      fmt.Println(mySlice)
    }
 }
 
