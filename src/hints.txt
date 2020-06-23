@@ -1,0 +1,317 @@
+go build
+	executable has the same name as the first go source
+go doc
+	you put the documentation in your source
+go fmt
+	formats source code files
+go get
+	download and install packages
+go list
+	list installed packages
+go run
+	build and executes
+go test
+	runs tests using files names _test.go
+
+var x int32 = 1
+var y int16 = 2
+x = y // that fails, strongly typed
+
+x = int32(y)
+
+// the T() operation
+
+var r float32 // ~6 digits of precision
+var r float64 // ~15 digits of precision
+
+var x float64 = 123.45
+var y float64 = 1.2345e2
+
+var z complex128 = complex(2,3) // 2+3i
+
+// unicode is 32-bit
+// utf-8 is a subset of unicode, variable length
+// matches ascii at the bottom
+// (8-bit Unicode Transformation Format)
+
+strings are immutable, they cannot be changed
+they can be copied
+
+string packages (useful)
+
+IsDigit
+IsSpace
+IsLetter
+IsLower
+IsPunct
+
+ToUpper
+ToLower
+
+Compare(a,b) // -1,0,1
+Constains(s,substr)
+HasPrefix(s,prefix)
+Index(s,substr) // returns index, don't know if this is zero-based or one-based
+
+Functions that return modified strings
+
+Replace(s,old,new,n) // n instances replaced (does not modify s)
+TrimSpace(s) // both leading and trailing
+
+Strconv package
+-Atoi
+-Itoa
+-FormatFloat(f,fmt,prec,
+-ParseFloat(s,bitSize)
+
+Constants
+iota (selector, enumerated type, e.g., days of the week)
+	-actual value is not important
+
+type Grades int const (
+	A Grades = iota
+	B
+	C
+	D
+	F
+)
+
+it will be 1 through 5 but you cannot count on that
+
+control flow
+
+if <condition> {
+}
+
+if <condition> {
+}
+else {
+}
+
+for <init> ; <cond> ; <update> {
+
+}
+
+i=0
+for i<10 {
+   i++
+}
+
+for i:=0; i<10; i++ {
+
+}
+
+// break statement is not required in goloang
+Switch x {
+   case 5 : {
+   }
+   case 6 : {
+   }
+   default : {
+   }
+}
+
+tagless switch
+// each case is an expression, if true
+
+switch {
+   case x > 1: {
+   }
+   case x < -1: {
+   }
+   default: {
+   }
+}
+
+// break and continue
+break exist the containing loop (as expected)
+continue jumps to the next iteration of the loop 
+
+scan, reads user input
+in the fmt package
+
+takes a pointer as an argument
+
+var int x
+num, err := fmt.Scan (&x)
+
+
+// composite data types
+
+// arrays
+
+// elements are accessed using []
+// indices start a 0
+// elements initialize to their zero value (unusual)
+//
+var x [5]int
+
+x[0]=2
+fmt.Printf(x[1])
+
+// array literal
+var x [5]int = [5]{1,2,8,4,6}
+
+// ... for size in array literal infers size from the number of initalizers
+
+x := [...]int = {5,7,2}
+
+// iterating through arrays
+
+// for each iteration of the loop i and v are bound to different values
+// i is the index, v is the value of that element
+x := [3]int = {2,4,6}
+for i, v range x {
+   fmt.Printf("ind %d, val %d",i,v)
+}
+
+// slices
+// a window on an underlying array
+// variable size, up to the size of the whole array
+// the slice could be smaller, but it can be changed from 10 to 20, for example
+
+// slices have three things
+// Pointer, indicates the start of the slice
+// Length, is the number of elements in the slice
+// Capacity is the maximum size the slice can grow to without exceeding the underlying array
+// e.g., could start at 3, so if the array is 100 the capacity would be 98 I guess
+
+arr := [...] string {"a","b","c","d","e","f","g"}
+// array has 7 elements
+
+s1 := arr[1:3] // so i guess that is b through c (does not include the 3rd)
+s2 := arr[2:5] // c,d,e
+
+// the slices overlap, that's okay
+
+len(s1) // the length of the slice
+cap(s1) // the capacity of the slice
+
+// write to a slice actually writes to the underlying array (sensible)
+
+// can initialize a slice... interesting
+// initializing a slice creates an array and the slice is for the entire array
+
+slice1 := [] int {1,2,3}
+// note, nothing in the brackets
+
+// function make() can be used to make slice
+// make it but without initial values
+
+//make(type,length) # length and capacity are the same
+
+sli = make([]int,10)
+sli = make([]int,10,15)
+
+//append can be used to increase the size of a slice
+appending a slice updates the array (and can increase the size of the array if required)
+
+sli = make([]int,0,3)
+sli = append(sli,100) // so now the slice is length 1
+
+// hash tables
+//key/value pairs, unique key
+//e.g.,ssn/e-mail
+
+//gps coordinates/address
+
+// hash function is used to compute the slot for a key
+// puts it in the right place (for speed/performance)
+// you don't call it
+
+// similar to an array/slice, just as fast an array, but you can use a key
+//
+
+// access a hash table using ['key']
+
+# faster than lists, arbitrary keys, not ints (like arrays)
+# constant-time lookup
+
+# hash tables can have collisions... handled internally, but they reduce performance
+
+# maps
+map is golang implementation of a hash table
+
+var idMap map[string]int
+idMap = make(map[string]int) # empty map
+
+can create and initialize
+idMap := map[string]int { "joe" : 123 }
+
+accessing maps
+
+fmt.Println (idMap['joe'])
+
+add new pair
+
+idMap["jane"] = 456 // creates a new one OR updates an existing
+
+delete pair
+
+delete(idMap,"joe")
+
+map functions
+
+id, p := idMap["joe"]
+
+p is a boolean (if it was found or not)
+
+_, p := idMap["joe"]
+
+len(idMap)
+
+iterate through a nao
+
+for key, val := range idMap {
+   fmt.Println(key,val)
+}
+
+// structs
+
+person structure may have name, address, phone
+
+type struct person {
+	string name
+	string address
+	string phone
+}
+
+var p1 person
+
+i guess you would access with
+
+p1.name
+p1.address
+p1.phone
+
+
+initialize an empty one with new()
+
+p1 := new(person) // empty
+
+p1 := person(name: "joe", address:"main street", phone : "123")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
